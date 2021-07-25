@@ -29,7 +29,9 @@ class agent:
 		self.epsilon = 1.0
 
 		self.array_of_scores =np.zeros(100)
-		self.array_of_average_scores = np.zeros(10000)
+		self.array_of_average_scores = np.array([])
+
+		self.df_every_epi = pd.DataFrame(np.empty((10000000,3),dtype='uint16'))
 
 		#Initialising models of the networok
 		self.local_network =  Dddqn_network.NeuralNetwork()
@@ -82,6 +84,7 @@ class agent:
 	def save_average_score(self,array_of_scores,index_of_score):
 
 		self.array_of_average_scores[index_of_score] = np.mean(array_of_scores)
+		print("Index ", index_of_score, " : Score : " , np.mean(array_of_scores) )
 
 
 
@@ -139,6 +142,10 @@ def train(env,agt):
 
 			
 		#end while
+
+		agt.df_every_epi.loc[epi_num,0] = env.score
+		agt.df_every_epi.loc[epi_num,1] = env.highest()
+		agt.df_every_epi.loc[epi_num,2] = sum(agt.current_state[0]) + sum(agt.current_state[1]) + sum(agt.current_state[2]) + sum(agt.current_state[3])
 
 
 		#after certain number of episodes optimise the local network parameters

@@ -3,7 +3,7 @@ import Dddqn_network
 import agent_and_others
 
 
-#env=game2048.Game2048Env()
+env=game2048.Game2048Env()
 
 agent_params={
 	'base_epsilon' : 0.1,
@@ -17,6 +17,11 @@ agent_params={
 }
 
 
+env.reset()
+
+env.render()
+
+print(env.highest())
 
 #agt = agent_and_others.agent(agent_params)
 
